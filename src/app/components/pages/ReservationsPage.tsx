@@ -416,6 +416,9 @@ export function ReservationsPage({ accessToken }: ReservationsPageProps) {
                   </p>
                   <p className="text-muted-foreground text-sm">Receita Total</p>
                 </div>
+              </div>
+            </div>
+
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-slate-900/40 backdrop-blur-md rounded-3xl p-6 border border-slate-800">

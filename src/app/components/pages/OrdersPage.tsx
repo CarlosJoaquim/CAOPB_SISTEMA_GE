@@ -35,10 +35,13 @@ export function OrdersPage({ accessToken }: OrdersPageProps) {
         }
       );
       const data = await response.json();
-      setOrders(data);
-      setFilteredOrders(data);
+      const ordersArray = Array.isArray(data) ? data : [];
+      setOrders(ordersArray);
+      setFilteredOrders(ordersArray);
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
+      setOrders([]);
+      setFilteredOrders([]);
     } finally {
       setLoading(false);
     }
@@ -55,7 +58,7 @@ export function OrdersPage({ accessToken }: OrdersPageProps) {
   }, [orders, filterStatus]);
 
   const filterOrders = () => {
-    let filtered = [...orders];
+    let filtered = Array.isArray(orders) ? [...orders] : [];
 
     if (filterStatus) {
       filtered = filtered.filter((order) => order.status === filterStatus);

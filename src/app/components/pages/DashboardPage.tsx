@@ -10,8 +10,7 @@ import {
   DollarSign,
   TrendingUp,
   RefreshCw,
-  Activity,
-  Award
+  Activity
 } from 'lucide-react';
 import {
   LineChart,
@@ -26,8 +25,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  AreaChart,
-  Area
 } from 'recharts';
 
 interface DashboardStats {

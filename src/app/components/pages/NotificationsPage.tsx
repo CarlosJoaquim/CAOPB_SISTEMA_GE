@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bell, Send, Users, MessageSquare, AlertCircle, X, Clock, Zap, Inbox, Eye, Calendar as CalendarIcon, CheckCircle } from 'lucide-react';
+import { Bell, Send, Users, MessageSquare, AlertCircle, X, Clock, Zap, Inbox, Eye, Calendar as CalendarIcon } from 'lucide-react';
 import { SUPABASE_FUNCTION_BASE_URL } from '../../config';
 
 interface Notification {

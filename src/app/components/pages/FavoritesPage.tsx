@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Heart, TrendingUp, Award, Star, Medal, Crown, TrendingDown, BarChart3, Sparkles } from 'lucide-react';
 
 interface FavoritePlace {
@@ -33,7 +33,7 @@ export function FavoritesPage({ accessToken }: FavoritesPageProps) {
       );
       const data = await response.json();
       // Adicionar dados mock de crescimento e avaliação
-      const enrichedData = data.map((place: any, index: number) => ({
+      const enrichedData = data.map((place: any) => ({
         ...place,
         avaliacao: (4 + Math.random()).toFixed(1),
         crescimento: Math.floor(Math.random() * 30) - 5

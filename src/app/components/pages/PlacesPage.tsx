@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Search, MapPin, Star, Eye, ImageIcon, MapPinned } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Search, MapPin, Star, Eye, ImageIcon } from 'lucide-react';
 
 const SUPABASE_BUCKET_URL = 'https://ewyckxscedklztarigha.supabase.co/storage/v1/object/public/';
 

@@ -1,0 +1,134 @@
+-- Schema PostgreSQL do Caop-B
+
+-- Extensões necessárias
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- Drop types if exist
+DROP TYPE IF EXISTS papel CASCADE;
+DROP TYPE IF EXISTS faixa_preco CASCADE;
+DROP TYPE IF EXISTS status_reserva CASCADE;
+DROP TYPE IF EXISTS status_pedido CASCADE;
+DROP TYPE IF EXISTS modo_entrega CASCADE;
+
+-- Drop tables if exist
+DROP TABLE IF EXISTS pedidos CASCADE;
+DROP TABLE IF EXISTS reservas CASCADE;
+DROP TABLE IF EXISTS produtos CASCADE;
+DROP TABLE IF EXISTS avaliacoes CASCADE;
+DROP TABLE IF EXISTS favoritos CASCADE;
+DROP TABLE IF EXISTS lugares CASCADE;
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+-- Enums
+CREATE TYPE papel AS ENUM ('USUARIO', 'AGENTE', 'ADMIN');
+CREATE TYPE faixa_preco AS ENUM ('BARATO', 'MODERADO', 'CARO');
+CREATE TYPE status_reserva AS ENUM ('PENDENTE', 'ACEITA', 'REJEITADA', 'CONCLUIDA', 'CANCELADA');
+CREATE TYPE status_pedido AS ENUM ('PENDENTE', 'ACEITO', 'REJEITADO', 'EM_TRANSITO', 'CONCLUIDO', 'CANCELADO');
+CREATE TYPE modo_entrega AS ENUM ('RETIRADA', 'ENTREGA');
+
+-- Usuários
+CREATE TABLE usuarios (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nome VARCHAR(255) NOT NULL,
+  sobrenome VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  telefone VARCHAR(50),
+  papel papel NOT NULL DEFAULT 'USUARIO',
+  ativo BOOLEAN NOT NULL DEFAULT true,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Lugares
+CREATE TABLE lugares (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT,
+  endereco TEXT NOT NULL,
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL,
+  faixa_preco faixa_preco NOT NULL,
+  categoria VARCHAR(100) NOT NULL,
+  url_imagem TEXT,
+  avaliacao DOUBLE PRECISION NOT NULL DEFAULT 0,
+  ativo BOOLEAN NOT NULL DEFAULT true,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Favoritos
+CREATE TABLE favoritos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  usuario_id UUID NOT NULL,
+  lugar_id UUID NOT NULL,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT fk_favoritos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  CONSTRAINT fk_favoritos_lugar FOREIGN KEY (lugar_id) REFERENCES lugares(id) ON DELETE CASCADE,
+  CONSTRAINT unico_usuario_lugar UNIQUE (usuario_id, lugar_id)
+);
+
+-- Avaliações
+CREATE TABLE avaliacoes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  usuario_id UUID NOT NULL,
+  lugar_id UUID NOT NULL,
+  avaliacao INT NOT NULL CHECK (avaliacao >= 1 AND avaliacao <= 5),
+  comentario TEXT,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT fk_avaliacoes_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  CONSTRAINT fk_avaliacoes_lugar FOREIGN KEY (lugar_id) REFERENCES lugares(id) ON DELETE CASCADE
+);
+
+-- Produtos (itens do menu)
+CREATE TABLE produtos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  lugar_id UUID NOT NULL,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT,
+  preco NUMERIC(12,2) NOT NULL,
+  estoque INT NOT NULL DEFAULT 0,
+  ativo BOOLEAN NOT NULL DEFAULT true,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT fk_produtos_lugar FOREIGN KEY (lugar_id) REFERENCES lugares(id) ON DELETE CASCADE
+);
+
+-- Reservas
+CREATE TABLE reservas (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  usuario_id UUID NOT NULL,
+  lugar_id UUID NOT NULL,
+  categoria VARCHAR(100) NOT NULL,
+  data_hora TIMESTAMPTZ NOT NULL,
+  convidados INT NOT NULL DEFAULT 1,
+  status status_reserva NOT NULL DEFAULT 'PENDENTE',
+  preco_total NUMERIC(12,2),
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT fk_reservas_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  CONSTRAINT fk_reservas_lugar FOREIGN KEY (lugar_id) REFERENCES lugares(id) ON DELETE CASCADE
+);
+
+-- Pedidos
+CREATE TABLE pedidos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  usuario_id UUID NOT NULL,
+  lugar_id UUID NOT NULL,
+  produto_id UUID NOT NULL,
+  quantidade INT NOT NULL CHECK (quantidade > 0),
+  preco_total NUMERIC(12,2) NOT NULL,
+  modo_entrega modo_entrega NOT NULL,
+  status status_pedido NOT NULL DEFAULT 'PENDENTE',
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  atualizado_em TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT fk_pedidos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  CONSTRAINT fk_pedidos_lugar FOREIGN KEY (lugar_id) REFERENCES lugares(id) ON DELETE CASCADE,
+  CONSTRAINT fk_pedidos_produto FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
+);
+
+-- Índices para busca por categoria e orçamento
+CREATE INDEX idx_lugares_categoria ON lugares(categoria);
+CREATE INDEX idx_lugares_faixa_preco ON lugares(faixa_preco);

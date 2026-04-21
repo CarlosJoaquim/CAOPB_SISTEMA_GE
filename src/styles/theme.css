@@ -1,0 +1,335 @@
+/* ============================================
+ * THEME CONFIGURATION
+ * Custom design system with dark mode support
+ * ============================================ */
+
+@import "tailwindcss";
+
+/* stylelint-disable-next-line at-rule-no-unknown */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --------------------------------------------
+ * DESIGN TOKENS
+ * -------------------------------------------- */
+:root {
+  /* Typography Scale */
+  --font-size-base: 14px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --line-height-base: 1.5;
+  --line-height-heading: 1.2;
+  
+  /* Spacing & Radius */
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --radius-2xl: calc(var(--radius) + 0.5rem);
+  
+  /* Light Mode - Surface Colors - BRANCO */
+  --background: 0 0% 100%;
+  --foreground: 215 28% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 28% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 28% 17%;
+  
+  /* Light Mode - Brand Colors - AZUL CLARO */
+  --primary: 199 89% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 160 84% 39%;
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Light Mode - State Colors */
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 14% 46%;
+  --accent: 210 20% 94%;
+  --accent-foreground: 215 28% 17%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Light Mode - UI Elements */
+  --border: 214 32% 91%;
+  --input: transparent;
+  --input-background: 210 20% 96%;
+  --switch-background: 214 32% 91%;
+  --ring: 199 89% 48%;
+  
+  /* Light Mode - Data Visualization */
+  --chart-1: 199 89% 48%;
+  --chart-2: 160 84% 39%;
+  --chart-3: 38 92% 50%;
+  --chart-4: 0 84% 60%;
+  --chart-5: 262 83% 58%;
+  
+  /* Light Mode - Sidebar */
+  --sidebar: 0 0% 98%;
+  --sidebar-foreground: 215 28% 17%;
+  --sidebar-primary: 199 89% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 20% 94%;
+  --sidebar-accent-foreground: 215 28% 17%;
+  --sidebar-border: 214 32% 91%;
+  --sidebar-ring: 199 89% 48%;
+}
+
+/* --------------------------------------------
+ * DARK MODE OVERRIDES
+ * -------------------------------------------- */
+.dark {
+.dark {
+  /* Dark Mode - Surface Colors - BRANCO */
+  --background: 0 0% 100%;
+  --foreground: 215 28% 17%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 28% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 28% 17%;
+  
+  /* Dark Mode - Brand Colors - AZUL CLARO */
+  --primary: 199 89% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 160 84% 39%;
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Dark Mode - State Colors */
+  --muted: 210 20% 94%;
+  --muted-foreground: 215 14% 46%;
+  --accent: 210 20% 92%;
+  --accent-foreground: 215 28% 17%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Dark Mode - UI Elements */
+  --border: 214 32% 86%;
+  --input: transparent;
+  --input-background: 210 20% 94%;
+  --switch-background: 214 32% 86%;
+  --ring: 199 89% 48%;
+  
+  /* Dark Mode - Data Visualization */
+  --chart-1: 199 89% 48%;
+  --chart-2: 160 84% 39%;
+  --chart-3: 38 92% 50%;
+  --chart-4: 0 84% 60%;
+  --chart-5: 262 83% 58%;
+  
+  /* Light Mode - Sidebar */
+  --sidebar: 0 0% 98%;
+  --sidebar-foreground: 215 28% 17%;
+  --sidebar-primary: 199 89% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 20% 94%;
+  --sidebar-accent-foreground: 215 28% 17%;
+  --sidebar-border: 214 32% 86%;
+  --sidebar-ring: 199 89% 48%;
+}
+  --sidebar-primary: 217 91% 65%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 215 25% 27%;
+  --sidebar-accent-foreground: 210 20% 98%;
+  --sidebar-border: 215 25% 27%;
+  --sidebar-ring: 217 91% 65%;
+}
+
+/* --------------------------------------------
+ * THEME MAPPING
+ * Bridge CSS variables to Tailwind theme
+ * -------------------------------------------- */
+/* stylelint-disable-next-line at-rule-no-unknown */
+@theme inline {
+  /* Surface Colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  
+  /* Brand Colors */
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  
+  /* State Colors */
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  
+  /* UI Elements */
+  --color-border: hsl(var(--border));
+  --color-input: var(--input);
+  --color-input-background: hsl(var(--input-background));
+  --color-switch-background: hsl(var(--switch-background));
+  --color-ring: hsl(var(--ring));
+  
+  /* Data Visualization */
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  
+  /* Sidebar */
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  
+  /* Radius Scale */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+/* --------------------------------------------
+ * BASE STYLES
+ * Global element styling with proper cascade
+ * -------------------------------------------- */
+@layer base {
+  /* Global Reset & Defaults */
+  * {
+    /* stylelint-disable-next-line at-rule-no-unknown */
+    @apply border-border outline-ring/50;
+  }
+  
+  html {
+    font-size: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  body {
+    /* stylelint-disable-next-line at-rule-no-unknown */
+    @apply bg-background text-foreground;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    line-height: var(--line-height-base);
+  }
+  
+  /* Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-heading);
+  }
+  
+  h1 {
+    font-size: var(--text-2xl);
+    letter-spacing: -0.025em;
+  }
+  
+  h2 {
+    font-size: var(--text-xl);
+    letter-spacing: -0.025em;
+  }
+  
+  h3 {
+    font-size: var(--text-lg);
+  }
+  
+  h4 {
+    font-size: var(--text-base);
+  }
+  
+  /* Interactive Elements */
+  label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+  }
+  
+  button {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  
+  input,
+  textarea,
+  select {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-normal);
+    background-color: hsl(var(--input-background));
+    border-color: hsl(var(--border));
+  }
+  
+  /* Focus States */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  
+  /* Selection */
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--foreground));
+  }
+  
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: var(--radius-full);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+/* --------------------------------------------
+ * UTILITY LAYERS
+ * Custom utilities and components
+ * -------------------------------------------- */
+@layer utilities {
+  /* Transition Presets */
+  .transition-theme {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  /* Focus Ring */
+  .focus-ring {
+    /* stylelint-disable-next-line at-rule-no-unknown */
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* --------------------------------------------
+ * COMPONENT LAYER
+ * Reusable component styles
+ * -------------------------------------------- */
+@layer components {
+  /* Card Pattern */
+  .card-interactive {
+    /* stylelint-disable-next-line at-rule-no-unknown */
+    @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+  
+  /* Input Base */
+  .input-base {
+    @apply w-full rounded-md border border-input bg-input-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+}
